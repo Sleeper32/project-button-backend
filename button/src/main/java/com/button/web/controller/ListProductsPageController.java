@@ -42,11 +42,14 @@ public class ListProductsPageController {
     public String addProductToList(@PathVariable("list_id") Integer listId,
                                    @ModelAttribute("new_product") Product newProduct)
     {
-
         Product product = productRepository.findProductByName(newProduct.getName());
-        if (product == null) {
-            product = productRepository.save(newProduct);
-        }
+        boolean isNewProductEqualsNothing = newProduct.getName() == null || newProduct.getName().trim().length() == 0;
+
+        if ( ! isNewProductEqualsNothing) {
+            if (product == null) {
+                newProduct.setName(newProduct.getName().trim());
+                product = productRepository.save(newProduct);
+            }
 
         ProductProperty productProperty = new ProductProperty();
         productProperty.setProductId(product.getId());
