@@ -19,11 +19,11 @@ public class ProductProperty {
     @JoinColumn(name = "product_list_id", referencedColumnName = "id")
     private ProductList productList;
 
-    private Float quantity;
+    private Float quantity = 1.0f;
 
-    private Boolean state;
+    private Boolean state = false;
 
-    private String units;
+    private String units = "шт";
 
     public ProductProperty() {}
 
