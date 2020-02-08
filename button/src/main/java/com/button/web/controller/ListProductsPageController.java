@@ -51,11 +51,23 @@ public class ListProductsPageController {
                 product = productRepository.save(newProduct);
             }
 
-        ProductProperty productProperty = new ProductProperty();
-        productProperty.setProductId(product.getId());
-        productProperty.setProductListId(listId);
-        productPropertyRepository.save(productProperty);
+            ProductProperty productProperty = new ProductProperty();
+            productProperty.setProductId(product.getId());
+            productProperty.setProductListId(listId);
 
+            //наличие продукта в ProductList увеличивает его количество на 1, копирует остальные данные
+            Iterable<ProductProperty> listProducts = productPropertyRepository.findProductsByProductListId(listId);
+            for (ProductProperty productProperty1: listProducts) {
+                if (productProperty1.getProduct().getId().intValue() == product.getId().intValue()) {
+                    productProperty.setId(productProperty1.getId());
+                    productProperty.setQuantity(productProperty1.getQuantity());
+                    productProperty.setUnits(productProperty1.getUnits());
+                    productProperty.setState(false);
+                }
+            }
+
+            productPropertyRepository.save(productProperty);
+        }
         return "redirect:/list_products/" + listId;
     }
 }
