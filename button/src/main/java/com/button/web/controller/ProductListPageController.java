@@ -45,6 +45,7 @@ public class ProductListPageController {
 
     @GetMapping("/delete/{id}")
     public String deleteProductListPage(@PathVariable Integer id) {
+
         ProductList productList = productListRepository.findById(id).get();
         Set<User> users = productList.getUsers();
         for (User user : users) {
@@ -52,7 +53,6 @@ public class ProductListPageController {
         }
         userRepository.saveAll(users);
         productListRepository.delete(productList);
-
         return "redirect:/index";
     }
 

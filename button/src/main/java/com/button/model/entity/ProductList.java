@@ -19,12 +19,15 @@ public class ProductList {
     @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST
+
     )
+  
     @JoinTable(
             name = "users_product_list",
             joinColumns = {@JoinColumn(name = "product_list_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
+
     private Set<User> users = new HashSet<>();
 
     @OneToMany(
